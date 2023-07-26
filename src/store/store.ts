@@ -1,16 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from 'react-redux'
 import type {TypedUseSelectorHook} from 'react-redux'
+import productionSlice from "../application/production/store/ProductionSlice";
+import { serverApi } from "./ApiServer";
+import { setupListeners } from '@reduxjs/toolkit/query'
 
 export const store = configureStore({ 
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(serverApi.middleware),
     reducer:{
-        // cell:cellReducer
-    }
+        production:productionSlice,
+        [serverApi.reducerPath]:serverApi.reducer,
+    },
  })
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
 
 export const useAppDispatch: () => AppDispatch = useDispatch

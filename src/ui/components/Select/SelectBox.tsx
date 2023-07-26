@@ -1,19 +1,27 @@
 // import { useState } from "react";
 import Select from "react-select";
+import type { SingleValue } from "react-select";
 
 interface Element {
-  name:string
+  name: string;
 }
-
 
 interface Props {
-  listeElement:Element[]
+  listeElement: Element[];
+  onSelected?(name: string | undefined): void;
 }
 
-const SelectBox: React.FC<Props> = ({listeElement}) => {
+const SelectBox: React.FC<Props> = ({ listeElement, onSelected }) => {
+  const handleChange = (event: SingleValue<Element>) => {
+    if (onSelected) {
+      onSelected(event?.name);
+    }
+  };
+
   return (
     <div>
       <Select
+        onChange={handleChange}
         getOptionLabel={(e: Element) => e.name}
         getOptionValue={(e: Element) => e.name}
         options={listeElement}
@@ -22,6 +30,6 @@ const SelectBox: React.FC<Props> = ({listeElement}) => {
       />
     </div>
   );
-}
+};
 
-export default SelectBox
+export default SelectBox;
