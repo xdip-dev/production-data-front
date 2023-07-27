@@ -1,5 +1,5 @@
 export interface Operator {
-    id:string,
+    operatorId:string,
     name:string,
     barcode:string
 }

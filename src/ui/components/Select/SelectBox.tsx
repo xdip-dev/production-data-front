@@ -9,9 +9,10 @@ interface Element {
 interface Props {
   listeElement: Element[];
   onSelected?(name: string | undefined): void;
+  placeholder:string
 }
 
-const SelectBox: React.FC<Props> = ({ listeElement, onSelected }) => {
+const SelectBox: React.FC<Props> = ({ listeElement, onSelected,placeholder }) => {
   const handleChange = (event: SingleValue<Element>) => {
     if (onSelected) {
       onSelected(event?.name);
@@ -27,6 +28,7 @@ const SelectBox: React.FC<Props> = ({ listeElement, onSelected }) => {
         options={listeElement}
         isClearable={true}
         backspaceRemovesValue={true}
+        placeholder={placeholder}
       />
     </div>
   );

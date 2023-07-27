@@ -19,8 +19,8 @@ const App = () => {
     {name:'M2'},
   ]
   const fakeOperator: Operator[] = [
-    { barcode: "bbb", id: "5", name: "Jack" },
-    { barcode: "bbddb", id: "6", name: "Robert" },
+    { barcode: "bbb", operatorId: "5", name: "Jack" },
+    { barcode: "bbddb", operatorId: "6", name: "Robert" },
   ];
 
   // if (operator.isLoading || models.isLoading) {

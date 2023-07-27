@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from 'react-redux'
 import type {TypedUseSelectorHook} from 'react-redux'
 import productionSlice from "../application/production/store/ProductionSlice";
-import { serverApi } from "./ApiServer";
+import { serverApi } from "../application/production/store/ApiServer";
 import { setupListeners } from '@reduxjs/toolkit/query'
 
 export const store = configureStore({ 
