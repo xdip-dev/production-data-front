@@ -1,63 +1,87 @@
 import { Button, Form } from "react-bootstrap";
 import { useAppSelector } from "../../../store/store";
-import SelectBox from "../Select/SelectBox";
 import { useState } from "react";
+import { Typeahead } from "react-bootstrap-typeahead";
+import { Model } from "../../../application/production/domain/Model";
+import { serverApi } from "../../../application/production/store/ApiServer";
+import ErrorComponent from "../Error/Error";
 
 interface Props {
-  closeModal(): void;
+	closeModal(): void;
 }
 
 const StartForm: React.FC<Props> = ({ closeModal }) => {
-  const btnName = "Start";
+	const btnName = "Start";
 
-  const actions = useAppSelector((state) => state.production.actionList);
-  const models = useAppSelector((state) => state.production.modelList);
+	const actions = useAppSelector((state) => state.production.actionList);
+	const models = useAppSelector((state) => state.production.modelList);
+	const operatorId = useAppSelector((state) => state.production.operator.operatorId);
+	const [createAction, { isLoading, error }] = serverApi.useCreateActionMutation();
 
-  const [model, setModel] = useState("");
-  const [action, setAction] = useState("");
+	const [model, setModel] = useState<Model>();
+	const [action, setAction] = useState("");
 
-  const handleChangeModel = (event: string) => {
-    setModel(event);
-  };
-  const handleChangeAction = (event: string) => {
-    setAction(event);
-  };
+	const handleSubmit = (event: React.FormEvent) => {
+		event.preventDefault();
+		if (!model || !action) {
+			return;
+		}
+		console.log(model.name, action);
+		createAction({ operatorId: operatorId, model: model.name, action: action })
+			.unwrap()
+			.then((res) => {
+				console.log(res);
+				setModel({ name: "" });
+				setAction("");
+				closeModal();
+			})
+      .catch((err) => console.log(err));
+	};
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log(model, action);
-    setModel("");
-    setAction("");
-    closeModal();
-  };
+	if (isLoading) {
+		return <div>loading...</div>;
+	}
 
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>intrare Model</Form.Label>
-        <SelectBox
-          listeElement={models}
-          placeholder="Select Model"
-          onSelected={handleChangeModel}
-        />
-      </Form.Group>
+	if (error) {
+		return <ErrorComponent error={error} />;
+	}
 
-      <Form.Group>
-        <Form.Label>intrare Actiune</Form.Label>
-        <SelectBox
-          listeElement={actions.map((value) => {
-            return { name: value };
-          })}
-          placeholder="Select Action"
-          onSelected={handleChangeAction}
-        />
-      </Form.Group>
+	return (
+		<Form onSubmit={handleSubmit}>
+			<Form.Group>
+				<Form.Label>intrare Model</Form.Label>
+				<Typeahead
+					clearButton
+					id="select-model"
+					labelKey="name"
+					options={models}
+					onChange={(option) => {
+						if (option[0]) {
+							return setModel(option[0] as Model);
+						}
+					}}
+				/>
+			</Form.Group>
+			<Form.Group>
+				<Form.Label>intrare Actiune</Form.Label>
+				<Typeahead
+					clearButton
+					id="select-action"
+					labelKey="name"
+					options={actions}
+					onChange={(option) => {
+						if (option[0]) {
+							return setAction(option[0] as string);
+						}
+					}}
+				/>
+			</Form.Group>
 
-      <Button variant="primary" type="submit">
-        {btnName}
-      </Button>
-    </Form>
-  );
+			<Button variant="primary" type="submit">
+				{btnName}
+			</Button>
+		</Form>
+	);
 };
 
 export default StartForm;

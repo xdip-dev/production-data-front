@@ -1,6 +1,6 @@
 
 export interface ActionProduction {
-    __id: number|undefined,
+    actionId: number|undefined,
     action: string,
     model: string,
     bonne: number,

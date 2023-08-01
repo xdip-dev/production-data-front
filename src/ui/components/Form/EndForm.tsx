@@ -1,10 +1,20 @@
 import { Button, Form } from "react-bootstrap";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { serverApi } from "../../../application/production/store/ApiServer";
+import ErrorComponent from "../Error/Error";
+import { reset } from "../../../application/production/store/ProductionSlice";
 interface Props {
   closeModal(): void;
 }
 
 const EndForm: React.FC<Props> = ({ closeModal }) => {
+
+  const dispatch = useAppDispatch();
+
+  const actionId = useAppSelector((state) => state.production.action.actionId);
+  const [endAction, { isLoading, error }] = serverApi.useEndActionMutation();
+
   const [bonne, setBonne] = useState(0);
   const [rebut, setRebut] = useState(0);
 
@@ -28,9 +38,26 @@ const EndForm: React.FC<Props> = ({ closeModal }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("submit");
-    closeModal();
+    if(!actionId){return}
+    endAction({ actionId: actionId, bonne: bonne, rebut: rebut })
+    .unwrap()
+    .then((res) => {
+      console.log(res);
+      setBonne(0);
+      setRebut(0);
+      dispatch(reset())
+      closeModal();
+    })
+    .catch((err) => console.log(err));
   };
+
+  if (isLoading) {
+		return <div>loading...</div>;
+	}
+
+	if (error) {
+		return <ErrorComponent error={error} />;
+	}
 
   return (
     <Form onSubmit={handleSubmit}>

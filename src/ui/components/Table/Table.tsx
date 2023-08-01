@@ -1,18 +1,17 @@
 import Table from "react-bootstrap/Table";
+import { DataTable } from "../../../application/production/domain/DataTable";
 
-export interface DataTable {
-  model: string;
-  action: string;
-  status: string;
-}
+
 
 interface TableProps {
-  data: DataTable[];
+  data: DataTable;
 }
 
 const TableComponent: React.FC<TableProps> = ({ data }) => {
   return (
     <div>
+      {!data ? <div>No recent data</div> 
+      :
       <Table striped bordered hover size="sm">
         <thead>
           <tr>
@@ -22,15 +21,15 @@ const TableComponent: React.FC<TableProps> = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td>{item.model}</td>
-              <td>{item.action}</td>
-              <td>{item.status}</td>
+            <tr key={1}>
+              <td>{data.model}</td>
+              <td>{data.action}</td>
+              <td>{data.status}</td>
             </tr>
-          ))}
         </tbody>
       </Table>
+      
+      }
     </div>
   );
 };

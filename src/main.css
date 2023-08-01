@@ -1,3 +1,7 @@
 body{
     padding: 5px;
 }
+
+span.rbt-close-content {
+    color: #ffffff00;
+}

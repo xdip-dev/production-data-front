@@ -3,7 +3,7 @@ import { useAppDispatch } from "./store/store";
 import { actionsListed, modelsListed, operatorsListed} from "./application/production/store/ProductionSlice";
 import { Model } from "./application/production/domain/Model";
 import { Operator } from "./application/production/domain/Operator";
-// import { serverApi } from "./store/ApiServer";
+// import {serverApi} from "./application/production/store/ApiServer";
 // import { Spinner } from "react-bootstrap";
 
 const App = () => {
@@ -15,7 +15,12 @@ const App = () => {
 
   const fakeModelActions = ['A','B','C'];
   const fakeModel:Model[]=[
-    {name:'M1'},
+    {name:'Moon res 1'},
+    {name:'fdfdfon res 1'},
+    {name:'Gooon res 1'},
+    {name:'ddfd ras 1'},
+    {name:'ddfd tor 1'},
+    {name:'ddfd tor 2'},
     {name:'M2'},
   ]
   const fakeOperator: Operator[] = [
