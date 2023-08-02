@@ -1,5 +1,5 @@
 export interface CreateActionDto {
-    operatorId: string,
+    operatorId: number,
     action: string,
     model: string,
   }

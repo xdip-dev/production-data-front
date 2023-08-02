@@ -1,10 +1,11 @@
 import { Button, Form } from "react-bootstrap";
-import { useAppSelector } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { useState } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { Model } from "../../../application/production/domain/Model";
 import { serverApi } from "../../../application/production/store/ApiServer";
 import ErrorComponent from "../Error/Error";
+import { reset } from "../../../application/production/store/ProductionSlice";
 
 interface Props {
 	closeModal(): void;
@@ -12,6 +13,8 @@ interface Props {
 
 const StartForm: React.FC<Props> = ({ closeModal }) => {
 	const btnName = "Start";
+	const dispatch = useAppDispatch();
+
 
 	const actions = useAppSelector((state) => state.production.actionList);
 	const models = useAppSelector((state) => state.production.modelList);
@@ -33,6 +36,7 @@ const StartForm: React.FC<Props> = ({ closeModal }) => {
 				console.log(res);
 				setModel({ name: "" });
 				setAction("");
+				dispatch(reset())
 				closeModal();
 			})
       .catch((err) => console.log(err));

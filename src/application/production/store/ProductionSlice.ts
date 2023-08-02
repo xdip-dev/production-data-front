@@ -18,7 +18,7 @@ export interface ProductionState {
 
 const initialState: ProductionState = {
 	operatorList: [],
-	actionList: [],
+	actionList: ['A','B','C'],
 	modelList: [],
 	problem: [],
 	showAfterSelectOperator: false,
@@ -30,7 +30,7 @@ const initialState: ProductionState = {
 		rebut: 0,
 	},
 	operator: {
-		operatorId: "",
+		operatorId: 0,
 		name: "",
 		barcode: "",
 	},
@@ -69,7 +69,7 @@ export const productionSlice = createSlice({
 			state.operator.barcode = action.payload.barcode;
 		},
 		reset: (state) => {
-			state.operator.operatorId = "";
+			state.operator.operatorId = 0;
 			state.operator.name = "";
 			state.operator.barcode = "";
 			state.showAfterSelectOperator = false;

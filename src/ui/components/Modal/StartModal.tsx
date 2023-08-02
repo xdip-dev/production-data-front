@@ -2,39 +2,37 @@ import React from "react";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import StartForm from "../Form/StartForm";
-
-interface Props {
-  btnName: string;
-  title: string;
-  size?: "sm" | "lg" | "xl";
-}
-
-const StartModal: React.FC<Props> = ({ btnName, title, size }) => {
-  const [show, setShow] = useState(false);
+import { ModalProps } from "./ModalProps";
 
 
-  // const isLoading=true
+const StartModal: React.FC<ModalProps> = ({ btnName, title, size,parentRef }) => {
+	const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+	// const isLoading=true
 
-  return (
-    <div>
-      <Button variant="primary" onClick={handleShow}>
-        {btnName}
-      </Button>
+	const handleClose = () => {
+    setShow(false)
+    parentRef?.current?.clear()
+  };
+	const handleShow = () => setShow(true);
 
-      <Modal show={show} onHide={handleClose} size={size ? size : "lg"}>
-        <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
-        </Modal.Header>
+	return (
+		<div>
+			<Button variant="primary" onClick={handleShow}>
+				{btnName}
+			</Button>
 
-        <Modal.Body>
-          <StartForm closeModal={handleClose} />
-        </Modal.Body>
-      </Modal>
-    </div>
-  );
+			<Modal show={show} onHide={handleClose} size={size ? size : "lg"}>
+				<Modal.Header closeButton>
+					<Modal.Title>{title}</Modal.Title>
+				</Modal.Header>
+
+				<Modal.Body>
+					<StartForm closeModal={handleClose} />
+				</Modal.Body>
+			</Modal>
+		</div>
+	);
 };
 
 export default StartModal;

@@ -6,12 +6,14 @@ import { GetActionResponseModel } from "../adapters/response/GetActionResponseMo
 // import { ResponseModelMapper } from "../adapters/response/ResponseModelMapper";
 import { DataTable } from "../domain/DataTable";
 import { GetLastActionDto } from "../adapters/dtos/GetLastActionDto";
-import { ServerError } from "../domain/errors/ServerError";
+import { ServerError, ServerErrorMissingField } from "../domain/errors/ServerError";
 import { EndActionDto } from "../adapters/dtos/EndActionDto";
-import { CancelActionDto } from "../adapters/dtos/cancelActionDto";
+import { CancelActionDto } from "../adapters/dtos/CancelActionDto";
+import { GetAllOperatorsResponseModel } from "../adapters/response/GetAllOperatorsResponseModel";
+import { ResponseModelMapper } from "../adapters/response/ResponseModelMapper";
 
 export type CustomTypeError = {
-  data :ServerError
+  data :ServerError | ServerErrorMissingField
 }
 
 export const serverApi = createApi({
@@ -21,6 +23,11 @@ export const serverApi = createApi({
   endpoints: (builder) => ({
     getAllOperators: builder.query<Operator[], void>({
       query: () => "/get-operators",
+      transformResponse: (response: GetAllOperatorsResponseModel[]) => {
+        return response.map((operator) => 
+          ResponseModelMapper.getAllOperatorsMapper(operator)
+        );
+      }
     }),
     getAllModels: builder.query<Model[], void>({
       query: () => "/get-models",
@@ -32,12 +39,7 @@ export const serverApi = createApi({
         body:props
       }),
       transformResponse: (response: GetActionResponseModel) => {
-        //TODO :To change with the Mapper
-        return {  
-          actionId: response.actionId,
-          model: response.model,
-          action: response.action,
-          status: response.status,}
+        return ResponseModelMapper.getActionMapper(response);
       },
       providesTags:["Action"]
     }),

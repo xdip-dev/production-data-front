@@ -1,3 +1,3 @@
 export interface GetLastActionDto {
-    operatorId: string,
+    operatorId: number,
   }

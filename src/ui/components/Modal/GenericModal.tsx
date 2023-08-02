@@ -1,36 +1,41 @@
-import React from "react";
-import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 interface Props {
-  btnName:string;
-  title:string;
-  children: React.ReactNode;
-  size?:'sm' |'lg' | 'xl';
+  btnName: string;
+  title: string;
+  size?: "sm" | "lg" | "xl";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  parentRef?: React.MutableRefObject<any>;
+  contentComponent: React.ComponentType<{ closeModal: () => void }>; //TODO doesn't work...
 }
 
-const GenericModal: React.FC<Props> = ({btnName,children,title,size}) => {
+const GenericModal: React.FC<Props> = ({ btnName, title, size, parentRef, contentComponent: ContentComponent }) => {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    parentRef?.current?.clear();
+  };
+
   const handleShow = () => setShow(true);
 
   return (
-    <>
+    <div>
       <Button variant="primary" onClick={handleShow}>
         {btnName}
       </Button>
 
-      <Modal show={show} onHide={handleClose} size={size? size:'lg'}>
+      <Modal show={show} onHide={handleClose} size={size ? size : "lg"}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          {children}
+          <ContentComponent closeModal={handleClose} />
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   );
 };
 
