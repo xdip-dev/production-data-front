@@ -4,8 +4,9 @@ import { useState } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { Model } from "../../../application/production/domain/Model";
 import { serverApi } from "../../../application/production/store/ApiServer";
-import ErrorComponent from "../Error/Error";
+import ErrorComponent from "../../components/Error/Error";
 import { reset } from "../../../application/production/store/ProductionSlice";
+import SpinnerComponent from "../../components/Spinner/SpinnerComponent";
 
 interface Props {
 	closeModal(): void;
@@ -15,7 +16,6 @@ const StartForm: React.FC<Props> = ({ closeModal }) => {
 	const btnName = "Start";
 	const dispatch = useAppDispatch();
 
-
 	const actions = useAppSelector((state) => state.production.actionList);
 	const models = useAppSelector((state) => state.production.modelList);
 	const operatorId = useAppSelector((state) => state.production.operator.operatorId);
@@ -23,6 +23,7 @@ const StartForm: React.FC<Props> = ({ closeModal }) => {
 
 	const [model, setModel] = useState<Model>();
 	const [action, setAction] = useState("");
+	const [previousAction, setPreviousAction] = useState<number>();
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
@@ -30,20 +31,25 @@ const StartForm: React.FC<Props> = ({ closeModal }) => {
 			return;
 		}
 		console.log(model.name, action);
-		createAction({ operatorId: operatorId, model: model.name, action: action })
+		createAction({ operatorId: operatorId, model: model.name, action: action, previousAction: previousAction })
 			.unwrap()
 			.then((res) => {
 				console.log(res);
 				setModel({ name: "" });
 				setAction("");
-				dispatch(reset())
+				dispatch(reset());
 				closeModal();
 			})
-      .catch((err) => console.log(err));
+			.catch((err) => console.log(err));
 	};
 
+	const handlePreviousAction = (event :React.ChangeEvent<HTMLInputElement>) => {
+		setPreviousAction(Number(event.target.value))
+		console.log(previousAction);
+	}
+
 	if (isLoading) {
-		return <div>loading...</div>;
+		return <SpinnerComponent />;
 	}
 
 	if (error) {
@@ -64,6 +70,7 @@ const StartForm: React.FC<Props> = ({ closeModal }) => {
 							return setModel(option[0] as Model);
 						}
 					}}
+					placeholder="Select ..."
 				/>
 			</Form.Group>
 			<Form.Group>
@@ -78,9 +85,14 @@ const StartForm: React.FC<Props> = ({ closeModal }) => {
 							return setAction(option[0] as string);
 						}
 					}}
+					placeholder="Select ..."
 				/>
 			</Form.Group>
-
+			<Form.Group>
+				<Form.Label>previous Actiune</Form.Label>
+				<Form.Control type="text" placeholder="optional : previous Actiune" onChange={handlePreviousAction} />
+			</Form.Group>
+			<br />
 			<Button variant="primary" type="submit">
 				{btnName}
 			</Button>

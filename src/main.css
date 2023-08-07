@@ -5,3 +5,7 @@ body{
 span.rbt-close-content {
     color: #ffffff00;
 }
+
+.centerEl{
+    text-align: center;
+}

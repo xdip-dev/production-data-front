@@ -1,19 +1,18 @@
 import React from "react";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import EndForm from "../Form/EndForm";
-import { ModalProps } from "./ModalProps";
+import { ModalProps } from "../../components/Modal/ModalProps";
+import AddOpperationForm from "./AddOperationForm";
 
-
-const EndModal: React.FC<ModalProps> = ({ btnName, title, size,parentRef }) => {
+const AddOperationModal: React.FC<ModalProps> = ({ btnName, title, size }) => {
   const [show, setShow] = useState(false);
-
+  
   const handleClose = () => {
     setShow(false)
-    parentRef?.current?.clear()
   };
   const handleShow = () => setShow(true);
-
+  
+  
   return (
     <div>
       <Button variant="primary" onClick={handleShow}>
@@ -26,11 +25,11 @@ const EndModal: React.FC<ModalProps> = ({ btnName, title, size,parentRef }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <EndForm closeModal={handleClose} />
+          <AddOpperationForm closeModal={handleClose} />
         </Modal.Body>
       </Modal>
     </div>
   );
 };
 
-export default EndModal;
+export default AddOperationModal;

@@ -18,7 +18,7 @@ export interface ProductionState {
 
 const initialState: ProductionState = {
 	operatorList: [],
-	actionList: ['A','B','C'],
+	actionList: [],
 	modelList: [],
 	problem: [],
 	showAfterSelectOperator: false,
@@ -86,7 +86,10 @@ export const productionSlice = createSlice({
 			})
 			.addMatcher(serverApi.endpoints.getAction.matchFulfilled, (state, action) => {
 				state.action.actionId = action.payload.actionId;
-			});
+			})
+			.addMatcher(serverApi.endpoints.getAllActions.matchFulfilled, (state, action) => {
+				state.actionList = action.payload;
+			})
 	},
 });
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import StartForm from "../Form/StartForm";
-import { ModalProps } from "./ModalProps";
+import StartForm from "./StartForm";
+import { ModalProps } from "../../components/Modal/ModalProps";
 
 
 const StartModal: React.FC<ModalProps> = ({ btnName, title, size,parentRef }) => {

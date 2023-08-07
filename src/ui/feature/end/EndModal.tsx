@@ -1,15 +1,16 @@
 import React from "react";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { ModalProps } from "./ModalProps";
-import AddOpperationForm from "../Form/AddOperationForm";
+import EndForm from "./EndForm";
+import { ModalProps } from "../../components/Modal/ModalProps";
 
 
-const AddOperationModal: React.FC<ModalProps> = ({ btnName, title, size }) => {
+const EndModal: React.FC<ModalProps> = ({ btnName, title, size,parentRef }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
     setShow(false)
+    parentRef?.current?.clear()
   };
   const handleShow = () => setShow(true);
 
@@ -25,11 +26,11 @@ const AddOperationModal: React.FC<ModalProps> = ({ btnName, title, size }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <AddOpperationForm closeModal={handleClose} />
+          <EndForm closeModal={handleClose} />
         </Modal.Body>
       </Modal>
     </div>
   );
 };
 
-export default AddOperationModal;
+export default EndModal;

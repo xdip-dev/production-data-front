@@ -1,9 +1,9 @@
-import TableComponent from "../Table/Table";
+import TableComponent from "../../components/Table/Table";
 import { serverApi } from "../../../application/production/store/ApiServer";
-import { Spinner } from "react-bootstrap";
 // import { DataTable } from "../../../application/production/domain/DataTable";
 import { useAppSelector } from "../../../store/store";
-import ErrorComponent from "../Error/Error";
+import ErrorComponent from "../../components/Error/Error";
+import SpinnerComponent from "../../components/Spinner/SpinnerComponent";
 
 const TableProd: React.FC = () => {
 
@@ -21,7 +21,7 @@ const TableProd: React.FC = () => {
 
 
   if(isLoading){
-    return <Spinner></Spinner>
+    return <SpinnerComponent/>
   }
 
 	return (

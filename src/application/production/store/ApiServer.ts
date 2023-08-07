@@ -11,6 +11,7 @@ import { EndActionDto } from "../adapters/dtos/EndActionDto";
 import { CancelActionDto } from "../adapters/dtos/CancelActionDto";
 import { GetAllOperatorsResponseModel } from "../adapters/response/GetAllOperatorsResponseModel";
 import { ResponseModelMapper } from "../adapters/response/ResponseModelMapper";
+import { AddAllActionsDto } from "../adapters/dtos/AllActions/AddAllActionsDto";
 
 export type CustomTypeError = {
   data :ServerError | ServerErrorMissingField
@@ -19,7 +20,7 @@ export type CustomTypeError = {
 export const serverApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8080" })as BaseQueryFn<string | FetchArgs, unknown, CustomTypeError>,
-  tagTypes: ["Action"],
+  tagTypes: ["Action","AllActionList"],
   endpoints: (builder) => ({
     getAllOperators: builder.query<Operator[], void>({
       query: () => "/get-operators",
@@ -66,6 +67,18 @@ export const serverApi = createApi({
         body:props
       }),
       invalidatesTags:["Action"]
+    }),
+    getAllActions: builder.query<string[],void>({
+      query: () => "/get-all-actions",
+      providesTags:["AllActionList"]
+    }),
+    addAllActions: builder.mutation<void,AddAllActionsDto>({
+      query: (props) => ({
+        url:'/add-all-actions',
+        method:'POST',
+        body:props
+      }),
+      invalidatesTags:["AllActionList"]
     }),
   }),
 });
