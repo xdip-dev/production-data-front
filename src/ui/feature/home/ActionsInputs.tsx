@@ -26,6 +26,7 @@ const ActionInputs: React.FC = () => {
 		console.log(data);
 		dispatch(infoOperatorSet(data));
 		dispatch(showAfterOperatorSelected(true));
+		refOperatorList.current?.clear();
 	};
 
 	const handleCancelCLick = () => {
@@ -34,27 +35,23 @@ const ActionInputs: React.FC = () => {
 		}
 	};
 
-	const refOperatorList = useRef();
+	const refOperatorList = useRef<any>();
 
 	return (
 		<div>
-			<Row>
-				<Col md={4}>
-					<Typeahead
-						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-						// @ts-ignore
-						ref={refOperatorList}
-						id="operatorList"
-						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-						// @ts-ignore
-						labelKey={(option: Operator) => `[${option.barcode}]${option.name}`}
-						options={operators}
-						onChange={(e) => handleSelection(e as typeof operators)}
-						placeholder="Select Operator"
-						clearButton
-					/>
-				</Col>
-			</Row>
+			<div className="centerEl smallPadding">
+			<Typeahead
+				ref={refOperatorList}
+				id="operatorList"
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				labelKey={(option: Operator) => `[${option.barcode}]${option.name}`}
+				options={operators}
+				onChange={(e) => handleSelection(e as typeof operators)}
+				placeholder="Select Operator"
+				clearButton
+			/>
+			</div>
 			{showActionDetails && (
 				<div>
 					<Row className="text-center text-md-right">
@@ -62,10 +59,10 @@ const ActionInputs: React.FC = () => {
 					</Row>
 					<Row className="text-center text-md-right">
 						<Col>
-							<EndModal btnName={"Stop"} title={"Stop Operatie"} parentRef={refOperatorList} />
+							<EndModal btnName={"Stop"} title={"Stop Operatie"} />
 						</Col>
 						<Col>
-							<StartModal btnName={"Incep"} title={"Incep Operatie"} parentRef={refOperatorList} />
+							<StartModal btnName={"Incep"} title={"Incep Operatie"} />
 						</Col>
 						<Col>
 							<Button onClick={handleCancelCLick}>Cancel</Button>

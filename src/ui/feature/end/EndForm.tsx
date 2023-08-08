@@ -15,10 +15,12 @@ const EndForm: React.FC<Props> = ({ closeModal }) => {
 
 	const actionId = useAppSelector((state) => state.production.action.actionId);
 	const [endAction, { isLoading, error }] = serverApi.useEndActionMutation();
+	const [generateBarcodePdf] = serverApi.useGenerateBarcodePdfMutation();
 
 	const [bonne, setBonne] = useState(0);
 	const [rebut, setRebut] = useState(0);
 	const [problem, setProblem] = useState<boolean>();
+	const [generateBarcode, setGenerateBarcode] = useState<boolean>();
 
 	const btnName = "End";
 
@@ -47,16 +49,28 @@ const EndForm: React.FC<Props> = ({ closeModal }) => {
 			.unwrap()
 			.then((res) => {
 				console.log(res);
+				if (generateBarcode) {
+					generateBarcodePdf({ barcode: actionId.toString()})
+						.unwrap()
+						.then((url) => {
+							const link = document.createElement("a");
+							link.href = url;
+							link.download = "barcode.pdf";
+							link.click();
+							URL.revokeObjectURL(url);
+						});
+				}
 				setBonne(0);
 				setRebut(0);
 				dispatch(reset());
+				setGenerateBarcode(false);
 				closeModal();
 			})
 			.catch((err) => console.log(err));
 	};
 
 	if (isLoading) {
-		return <SpinnerComponent/>;
+		return <SpinnerComponent />;
 	}
 
 	if (error) {
@@ -78,12 +92,18 @@ const EndForm: React.FC<Props> = ({ closeModal }) => {
 			<Form.Group className="mb-3" controlId="formBasicCheckbox">
 				<Form.Check type="checkbox" label="Problem ?" onChange={() => setProblem(!problem)} />
 
-				{problem ? <ProblemForm/>:null}
+				{problem ? <ProblemForm /> : null}
 			</Form.Group>
 			<br />
+			<div style={{display:"flex", justifyContent:"space-evenly"}}>
 			<Button variant="primary" type="submit">
 				{btnName}
 			</Button>
+			<Button variant="primary" onClick={() => setGenerateBarcode(true)} type="submit">
+				{btnName} + Get barcode
+			</Button>
+
+			</div>
 		</Form>
 	);
 };

@@ -90,7 +90,7 @@ const StartForm: React.FC<Props> = ({ closeModal }) => {
 			</Form.Group>
 			<Form.Group>
 				<Form.Label>previous Actiune</Form.Label>
-				<Form.Control type="text" placeholder="optional : previous Actiune" onChange={handlePreviousAction} />
+				<Form.Control type="number" placeholder="optional : previous Actiune" onChange={handlePreviousAction} />
 			</Form.Group>
 			<br />
 			<Button variant="primary" type="submit">

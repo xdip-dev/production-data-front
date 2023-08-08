@@ -41,6 +41,7 @@ const App = () => {
 	return (
 		<div>
 			<ActionInputs />
+			<br />
 			<AddOperationModal btnName="Add Action" title="Detail Action" size="lg" />
 		</div>
 	);

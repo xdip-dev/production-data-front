@@ -5,12 +5,11 @@ import EndForm from "./EndForm";
 import { ModalProps } from "../../components/Modal/ModalProps";
 
 
-const EndModal: React.FC<ModalProps> = ({ btnName, title, size,parentRef }) => {
+const EndModal: React.FC<ModalProps> = ({ btnName, title, size }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
     setShow(false)
-    parentRef?.current?.clear()
   };
   const handleShow = () => setShow(true);
 

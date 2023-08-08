@@ -5,14 +5,13 @@ import StartForm from "./StartForm";
 import { ModalProps } from "../../components/Modal/ModalProps";
 
 
-const StartModal: React.FC<ModalProps> = ({ btnName, title, size,parentRef }) => {
+const StartModal: React.FC<ModalProps> = ({ btnName, title, size }) => {
 	const [show, setShow] = useState(false);
 
 	// const isLoading=true
 
 	const handleClose = () => {
     setShow(false)
-    parentRef?.current?.clear()
   };
 	const handleShow = () => setShow(true);
 

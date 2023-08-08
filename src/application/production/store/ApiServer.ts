@@ -12,6 +12,7 @@ import { CancelActionDto } from "../adapters/dtos/CancelActionDto";
 import { GetAllOperatorsResponseModel } from "../adapters/response/GetAllOperatorsResponseModel";
 import { ResponseModelMapper } from "../adapters/response/ResponseModelMapper";
 import { AddAllActionsDto } from "../adapters/dtos/AllActions/AddAllActionsDto";
+import { GenerateBarcodePdfDto } from "../adapters/dtos/Pdf/GenerateBarcodePdfDto";
 
 export type CustomTypeError = {
   data :ServerError | ServerErrorMissingField
@@ -79,6 +80,14 @@ export const serverApi = createApi({
         body:props
       }),
       invalidatesTags:["AllActionList"]
+    }),
+    generateBarcodePdf: builder.mutation<string,GenerateBarcodePdfDto>({
+      query: (props) => ({
+        url:'/generate-pdf-barcode',
+        method:'POST',
+        body:props,
+        responseHandler: (response) => response.blob().then(blob => URL.createObjectURL(blob))
+      }),
     }),
   }),
 });

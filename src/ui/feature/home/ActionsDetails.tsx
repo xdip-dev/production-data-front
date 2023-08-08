@@ -6,27 +6,35 @@ import ErrorComponent from "../../components/Error/Error";
 import SpinnerComponent from "../../components/Spinner/SpinnerComponent";
 
 const TableProd: React.FC = () => {
+	const operator = useAppSelector((state) => state.production.operator);
 
-  const operator = useAppSelector((state) => state.production.operator)
+	const { data, isLoading, error } = serverApi.useGetActionQuery({ operatorId: operator.operatorId });
 
-	const { data, isLoading, error  } = serverApi.useGetActionQuery({operatorId:operator.operatorId});
+	if (error) {
+		return (
+			<div className="smallPadding" style={{ color: "white" }}>
+				<div className="operator-name">
+					{operator.name}
+				</div>
+				<ErrorComponent error={error} />
+			</div>
+		);
+	}
 
-	// const data:DataTable[] = [
-	//   { model:'Ma',action:'BR - friz',status:'terminat'},
-	// ];
-
-  if (error) {
-    return <ErrorComponent error={error} />
-  }
-
-
-  if(isLoading){
-    return <SpinnerComponent/>
-  }
+	if (isLoading) {
+		return (
+			<div className="smallPadding">
+				<SpinnerComponent />
+			</div>
+		);
+	}
 
 	return (
-		<div style={{ padding: "1em" }}>
-			{data ? <TableComponent data={data} />: null }
+		<div>
+			<div className="smallPadding operator-name" style={{ color: "white" }}>
+				{operator.name}
+			</div>
+			<TableComponent data={data!} />
 		</div>
 	);
 };
