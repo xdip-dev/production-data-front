@@ -81,7 +81,7 @@ export function inMemoryDevelopment(): Dependencies {
 			"W-S-R1-Shelf_A",
 			{
 				stepId: 1,
-				action: "action 1",
+				actionName: "action 1",
 				model: "model 1",
 				reference: "reference 1",
 				status: "in_progress",
@@ -91,7 +91,7 @@ export function inMemoryDevelopment(): Dependencies {
 			"OP-1",
 			{
 				stepId: 99,
-				action: "action 9",
+				actionName: "action 9",
 				model: "model 9",
 				status: "cancelled",
 			},
@@ -103,7 +103,7 @@ export function inMemoryDevelopment(): Dependencies {
 			1,
 			{
 				stepId: 1,
-				action: "action 1",
+				actionName: "action 1",
 				model: "model 1 from call",
 				reference: "reference 1 from call",
 				status: "in_progress",
@@ -113,7 +113,7 @@ export function inMemoryDevelopment(): Dependencies {
 			2,
 			{
 				stepId: 2,
-				action: "action 1",
+				actionName: "action 1",
 				model: "model 1 from call without Ref",
 				reference: undefined,
 				status: "en cours",

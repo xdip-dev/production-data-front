@@ -17,6 +17,7 @@ export class FakeStepProductionGateway implements StepProductionGateway {
 		return Promise.resolve(this.returnLastStep.get(operatorId) ?? null);
 	}
 	createStep(_props: CreateStepDto): Promise<void> {
+		console.log("Create step", _props);
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				resolve();

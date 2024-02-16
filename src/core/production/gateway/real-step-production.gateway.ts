@@ -18,6 +18,7 @@ export class RealStepProductionGateway extends HttpClient implements StepProduct
 		return this.client<void, IdStepInfoModel | null>("GET", `step/${stepId.toString()}`);
 	}
 	createStep(props: CreateStepDto): Promise<void> {
+		console.log("Create step", props);
 		return this.client<CreateStepDto, void>("POST", "step/create", props);
 	}
 	endStep(props: EndStepDto): Promise<void> {

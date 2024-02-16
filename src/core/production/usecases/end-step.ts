@@ -1,3 +1,4 @@
+import { ErrorManagement } from "@/core/ErrorType";
 import { createAppAsyncThunk } from "@/core/store/create-app-thunk";
 
 export interface ThunkEndProps {
@@ -9,11 +10,15 @@ export interface ThunkEndProps {
 
 export const endStep = createAppAsyncThunk(
 	"production/endStep",
-	async (props: ThunkEndProps, { extra: { stepProductionGateway } }) => {
+	async (props: ThunkEndProps, { extra: { stepProductionGateway }, rejectWithValue }) => {
 		if (!props.stepId || props.stepId === 0) {
-			throw new Error("Step not selected");
+			rejectWithValue({ message: "No step Id selected" });
 		}
-		const response = await stepProductionGateway.endStep(props);
-		return response;
+		try {
+			const response = await stepProductionGateway.endStep(props);
+			return response;
+		} catch (err) {
+			return rejectWithValue(ErrorManagement(err));
+		}
 	}
 );

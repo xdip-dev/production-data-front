@@ -9,7 +9,7 @@ describe("Step Production Slice", () => {
 	it("should be able to get the last step", async () => {
 		fixture.givenTheLastStepIs({
 			stepId: 1,
-			action: "action 1",
+			actionName: "action 1",
 			model: "model 1",
 			reference: "reference 1",
 			status: "in_progress",
@@ -18,7 +18,7 @@ describe("Step Production Slice", () => {
 		fixture.thenTheStepStoreShouldBe({
 			lastStep: {
 				stepId: 1,
-				action: "action 1",
+				actionName: "action 1",
 				model: "model 1",
 				reference: "reference 1",
 				status: "in_progress",
@@ -34,7 +34,7 @@ describe("Step Production Slice", () => {
 	])("should set the right bool for the available end step : $expected", async ({ status, expected }) => {
 		fixture.givenTheLastStepIs({
 			stepId: 1,
-			action: "action 1",
+			actionName: "action 1",
 			model: "model 1",
 			reference: "reference 1",
 			status: status,
@@ -44,7 +44,7 @@ describe("Step Production Slice", () => {
 		fixture.thenTheStepStoreShouldBe({
 			lastStep: {
 				stepId: 1,
-				action: "action 1",
+				actionName: "action 1",
 				model: "model 1",
 				reference: "reference 1",
 				status: status,

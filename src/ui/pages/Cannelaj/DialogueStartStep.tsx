@@ -16,6 +16,7 @@ interface Props {
 }
 
 export default function DialogueStartStep(props: Props) {
+	const zone = "CAN";
 	const isOperator = useSelector(selectIsOperator);
 	const listeOfActions = useSelector(selectActionsList);
 	const listModel = useSelector(selectModelList);
@@ -23,6 +24,7 @@ export default function DialogueStartStep(props: Props) {
 	const [loading, setLoading] = useState<boolean>();
 	const [model, setModel] = useState<string>("");
 	const [action, setAction] = useState<string>("");
+	const [id, setId] = useState<number[]>([]);
 	const [disableSubmit, setDisableSubmmit] = useState<boolean>(true);
 
 	useEffect(() => {
@@ -36,6 +38,7 @@ export default function DialogueStartStep(props: Props) {
 		const res = await props.handleSubmitCreation({
 			action,
 			model,
+			previousStepsIds: id,
 		});
 		if (res) {
 			setVisible(false);
@@ -81,7 +84,10 @@ export default function DialogueStartStep(props: Props) {
 							<InputNumber
 								id="ID"
 								useGrouping={false}
-								onChange={(e) => getStepInfoFromId(e.value ?? 0)}
+								onChange={(e) => {
+									getStepInfoFromId(e.value ?? 0);
+									setId([e.value ?? 0]);
+								}}
 							/>
 						</div>
 					</div>
@@ -114,7 +120,7 @@ export default function DialogueStartStep(props: Props) {
 							<Dropdown
 								id="action"
 								value={action}
-								options={listeOfActions}
+								options={listeOfActions.filter((e) => e.zone === zone)}
 								optionLabel="name"
 								optionValue="id"
 								filter

@@ -34,13 +34,14 @@ export default function Cannelaj() {
 
 	const handleSubmitCreation = async (props: ThunkCreationsProps): Promise<boolean> => {
 		const res = await dispatch(createStep(props));
+		console.log("res", res);
 		if (res.meta.requestStatus === "fulfilled") {
 			dispatch(showToast(succesToast("Step Created")));
 			setRemount(Math.random());
 			return true;
 		}
 		if (res.meta.requestStatus === "rejected") {
-			dispatch(showToast(echecToast("Step Ended")));
+			dispatch(showToast(echecToast(res.payload?.message ?? "Unknown Cause of Error")));
 		}
 		return false;
 	};

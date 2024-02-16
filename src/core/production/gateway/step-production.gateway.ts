@@ -1,6 +1,6 @@
 export interface PartialStepProduction {
 	stepId: number;
-	action: string;
+	actionName: string;
 	model: string;
 	reference?: string;
 	status: string;
@@ -16,7 +16,7 @@ export interface CreateStepDto {
 	model: string;
 	action: string;
 	reference?: string;
-	previousStepId?: number;
+	previousStepsIds?: number[];
 }
 
 export interface EndStepDto {
