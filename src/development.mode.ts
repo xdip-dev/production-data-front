@@ -1,5 +1,6 @@
 import { FakeActionsGateway } from "./core/actions/gateways/fake-actions.gateway";
 import { FakeErpGateway } from "./core/erp/gateway/fake-erp.gateway";
+import { FakeMachineGateway } from "./core/machine/gateway/fake-machine.gateway";
 import { FakeStepProductionGateway } from "./core/production/gateway/fake-step-production.gateway";
 import { PartialStepProduction } from "./core/production/gateway/step-production.gateway";
 import { Dependencies } from "./core/store/create-store";
@@ -121,10 +122,12 @@ export function inMemoryDevelopment(): Dependencies {
 		],
 	]);
 	const actionsGateway = new FakeActionsGateway();
+	const machineGateway = new FakeMachineGateway();
 
 	return {
 		erpGateway,
 		stepProductionGateway,
 		actionsGateway,
+		machineGateway,
 	};
 }

@@ -17,6 +17,7 @@ export interface CreateStepDto {
 	action: string;
 	reference?: string;
 	previousStepsIds?: number[];
+	matrice?: string;
 }
 
 export interface EndStepDto {

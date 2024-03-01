@@ -8,7 +8,7 @@ function App() {
 					<Cards title="Cannelaj" endpoint={"/cannelaj"} />
 				</div>
 				<div className="col-12 md:col-6 lg:col-3">
-					<Cards title="Next one" endpoint={"/null"} />
+					<Cards title="Inj" endpoint={"/inj"} />
 				</div>
 			</div>
 		</>

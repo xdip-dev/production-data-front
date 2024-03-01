@@ -1,12 +1,8 @@
 import { ErrorManagement } from "@/core/ErrorType";
 import { createAppAsyncThunk } from "@/core/store/create-app-thunk";
+import { CreateStepDto } from "../gateway/step-production.gateway";
 
-export interface ThunkCreationsProps {
-	action: string;
-	model: string;
-	reference?: string;
-	previousStepsIds?: number[];
-}
+export type ThunkCreationsProps = Omit<CreateStepDto, "operatorId">;
 
 export const createStep = createAppAsyncThunk(
 	"production/createStep",
@@ -21,6 +17,7 @@ export const createStep = createAppAsyncThunk(
 				model: props.model,
 				reference: props.reference,
 				previousStepsIds: props.previousStepsIds,
+				matrice: props.matrice,
 				operatorId: operator,
 			});
 			return response;

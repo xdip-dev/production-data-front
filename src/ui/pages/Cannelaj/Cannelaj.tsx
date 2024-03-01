@@ -7,8 +7,7 @@ import TableStepData from "../../components/TableStepData";
 import DialogueStartStep from "./DialogueStartStep";
 import { getPreviousStepInfo } from "@/core/production/usecases/get-info-stepid";
 import { ThunkCreationsProps, createStep } from "@/core/production/usecases/create-step";
-import { Toast } from "primereact/toast";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import DialogueEndStep from "./DialogueEndStep";
 import { ThunkEndProps, endStep } from "@/core/production/usecases/end-step";
 import { IdStepInfoModel } from "@/core/production/gateway/step-production.gateway";
@@ -18,7 +17,6 @@ import { echecToast, showToast, succesToast } from "@/core/store/utils/utils.sli
 export default function Cannelaj() {
 	const operators = useSelector(selectOperatorList);
 	const dispatch = useDispatch<AppDispatch>();
-	const toast = useRef<Toast>(null);
 	const [remount, setRemount] = useState<number>(0);
 
 	const operatorselection = async (operator?: Operator) => {
@@ -61,7 +59,6 @@ export default function Cannelaj() {
 	return (
 		<>
 			<div key={remount}>
-				<Toast ref={toast} />
 				<div className="flex justify-content-center">
 					<InputOperator operators={operators} operatorselection={operatorselection} />
 				</div>

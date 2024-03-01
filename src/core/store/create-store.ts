@@ -6,11 +6,14 @@ import { FakeStepProductionGateway } from "../production/gateway/fake-step-produ
 import { reducer } from "./reducer";
 import { ActionsGateway } from "../actions/gateways/actions.gateway";
 import { FakeActionsGateway } from "../actions/gateways/fake-actions.gateway";
+import { MachineGateway } from "../machine/gateway/machine.gateway";
+import { FakeMachineGateway } from "../machine/gateway/fake-machine.gateway";
 
 export type Dependencies = {
 	erpGateway: ErpGateway;
 	stepProductionGateway: StepProductionGateway;
 	actionsGateway: ActionsGateway;
+	machineGateway: MachineGateway;
 };
 
 export const rootReducer = reducer;
@@ -34,4 +37,5 @@ export const createTestStore = ({
 	erpGateway = new FakeErpGateway(),
 	stepProductionGateway = new FakeStepProductionGateway(),
 	actionsGateway = new FakeActionsGateway(),
-}: Partial<Dependencies> = {}) => createAppStore({ erpGateway, stepProductionGateway, actionsGateway });
+	machineGateway = new FakeMachineGateway(),
+}: Partial<Dependencies> = {}) => createAppStore({ erpGateway, stepProductionGateway, actionsGateway, machineGateway });

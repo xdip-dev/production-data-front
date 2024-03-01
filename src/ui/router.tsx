@@ -4,6 +4,7 @@ import { createAppLoader } from "./create-app-loader";
 import { AppStore } from "@/core/store/create-store";
 import Cannelaj from "./pages/Cannelaj/Cannelaj";
 import Layout from "./Layout";
+import Inj from "./pages/Inj/Inj";
 
 export const appRouter = ({ store }: { store: AppStore }) =>
 	createBrowserRouter([
@@ -18,6 +19,10 @@ export const appRouter = ({ store }: { store: AppStore }) =>
 				{
 					path: "/cannelaj",
 					element: <Cannelaj />,
+				},
+				{
+					path: "/inj",
+					element: <Inj />,
 				},
 			],
 		},
